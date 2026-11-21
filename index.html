@@ -10,6 +10,8 @@
 
 /* Product detail */
 .detail-dialog{width:min(1120px,100%);max-height:92vh;overflow:auto;padding:0}.detail-head{display:flex;align-items:center;justify-content:space-between;padding:19px 24px;border-bottom:1px solid var(--line)}.detail-head strong{font-size:18px}.detail-body{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:0}.viewer-wrap{padding:22px;background:#f1f1f6}.viewer{height:430px;position:relative;overflow:hidden;border-radius:17px;background:radial-gradient(ellipse at 50% 40%,#414356,#1c1e29 72%);touch-action:pan-y}.viewer canvas{width:100%;height:100%;display:block;cursor:grab}.viewer canvas:active{cursor:grabbing}.viewer-fallback{position:absolute;inset:0;display:grid;place-items:center;font-size:140px;color:#fff;pointer-events:none}.viewer-tools{position:absolute;left:13px;right:13px;bottom:13px;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}.viewer-tools button{pointer-events:auto;border:1px solid #ffffff35;background:#171824bb;color:white;border-radius:9px;padding:9px 12px}.viewer-hint{font-size:11px;color:#d0d0dc;background:#17182499;padding:8px 11px;border-radius:9px}.viewer-label{position:absolute;top:14px;left:14px;color:#d7d6e4;background:#17182488;border:1px solid #ffffff20;border-radius:8px;padding:7px 10px;font-size:10px;letter-spacing:1px;text-transform:uppercase}.detail-thumbs{display:flex;gap:9px;margin-top:12px}.detail-thumb{border:1px solid #dddce7;background:#fff;border-radius:10px;padding:10px 13px;color:#5b5b6b;font-size:12px}.detail-thumb.active{border-color:var(--violet);color:var(--violet);background:#f4f2ff}.detail-info{padding:28px 27px}.detail-category{color:var(--violet);font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:1px}.detail-info h2{font-size:29px;line-height:1.13;letter-spacing:-1px;margin:8px 0}.detail-rating{color:#8a8998;font-size:12px}.detail-rating b{color:#eaa13d}.detail-author{display:flex;align-items:center;gap:9px;padding:18px 0;border-bottom:1px solid var(--line);margin-bottom:17px}.detail-author .mini-avatar{width:34px;height:34px;font-size:15px}.detail-price{font-size:30px;font-weight:900;letter-spacing:-1px}.detail-old{font-size:13px;color:#999;text-decoration:line-through;margin-left:8px}.detail-buy{display:grid;grid-template-columns:1fr 48px;gap:9px;margin:17px 0}.detail-buy button{border:0;border-radius:11px;background:#272835;color:#fff;padding:14px;font-weight:800}.detail-buy button:last-child{background:#f0eff7;color:#4d4b61;font-size:20px}.detail-description{color:#686879;line-height:1.7;margin:17px 0}.detail-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.spec{background:#f7f7fa;border-radius:10px;padding:11px}.spec small{display:block;color:#9292a0;font-size:10px;margin-bottom:3px}.spec b{font-size:13px}.detail-trust{display:flex;gap:8px;align-items:center;color:#777889;font-size:11px;margin-top:17px}.detail-trust span{color:#4e9a75;font-size:16px}@media(max-width:760px){.detail-body{grid-template-columns:1fr}.viewer{height:330px}.detail-info{padding:22px}.detail-dialog{max-height:95vh}.viewer-wrap{padding:14px}}
+
+.seller-form{display:grid;gap:12px}.seller-form label{display:grid;gap:6px;font-weight:700;color:#454557}.seller-form input,.seller-form select,.seller-form textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;outline-color:var(--violet)}.seller-form textarea{min-height:82px;resize:vertical}.seller-hint{font-size:11px;color:#888;margin:0}.upload-drop{border:1px dashed #b9b4df;background:#f8f7ff;border-radius:12px;padding:18px;text-align:center}.upload-drop input{border:0;padding:8px}.seller-submit{border:0;background:#272835;color:#fff;border-radius:11px;padding:14px;font-weight:800}.seller-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:520px){.seller-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -42,12 +44,12 @@
  <div class="chips" id="chips"></div>
  <div class="toolbar"><span id="resultCount">Подборка моделей</span><span>Цены в рублях · демо-каталог</span></div>
  <section class="products" id="products"></section>
- <div class="promo" id="authors"><div><div class="eyebrow">Создаёте 3D?</div><h2>Покажите свои работы всему миру</h2><p>Станьте автором SLOY и соберите собственную витрину.</p></div><button id="authorBtn">Стать автором ↗</button></div>
+ <div class="promo" id="authors"><div><div class="eyebrow">Создаёте 3D?</div><h2>Покажите свои работы всему миру</h2><p>Станьте автором SLOY и соберите собственную витрину.</p></div><button id="authorBtn">Загрузить модель ↗</button></div>
 </main>
 </div>
 <div class="modal" id="modal"><div class="dialog"><div class="dialog-head"><h2 id="modalTitle">Корзина</h2><button class="close" id="close">×</button></div><div id="modalBody"></div></div></div><div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
 // После создания проекта Supabase вставьте сюда Project URL и anon/public key.
 const SUPABASE_URL = "ВСТАВЬТЕ_SUPABASE_PROJECT_URL";
@@ -55,7 +57,7 @@ const SUPABASE_ANON_KEY = "ВСТАВЬТЕ_SUPABASE_ANON_KEY";
 const supabaseReady = !!(window.supabase && SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("ВСТАВЬТЕ") && !SUPABASE_ANON_KEY.includes("ВСТАВЬТЕ"));
 const supabaseClient = supabaseReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 let currentUser = null;
-const products=[
+let products=[
 {id:1,name:"BMW M8 Competition",cat:"Транспорт",price:1499,emoji:"🚘",author:"Auto3D",rating:4.9,reviews:"1.2k",format:"FBX",pop:10,glow:"#a7a4c8",cls:""},
 {id:2,name:"Sci-Fi Робот",cat:"Персонажи",price:999,emoji:"🤖",author:"CyberStudio",rating:4.8,reviews:"892",format:"BLEND",pop:9,glow:"#aaa4ff",cls:"v2"},
 {id:3,name:"Современный дом",cat:"Архитектура",price:1999,emoji:"🏡",author:"Arch3D",rating:4.9,reviews:"743",format:"OBJ",pop:8,glow:"#d4a06c",cls:"v3"},
@@ -69,9 +71,15 @@ const products=[
 {id:11,name:"Скандинавский интерьер",cat:"Интерьер",price:1790,emoji:"🛋️",author:"Arch3D",rating:4.8,reviews:"288",format:"BLEND",pop:6,glow:"#c8b49d",cls:"v3"},
 {id:12,name:"Фэнтези-дракон",cat:"Персонажи",price:1390,emoji:"🐉",author:"FantasyModels",rating:5.0,reviews:"654",format:"OBJ",pop:9,glow:"#a18acb",cls:"v5"}
 ];
+const savedSellerProducts=JSON.parse(localStorage.getItem("sloySellerProducts")||"[]");products.push(...savedSellerProducts);
+
 const categories=[["Все модели","▦"],["Персонажи","♙"],["Транспорт","🚘"],["Архитектура","⌂"],["Техника","⚙"],["Оружие","✧"],["Игровые ассеты","▣"],["Интерьер","▤"]];
 let selected="Все модели",basket=JSON.parse(localStorage.getItem("sloyBasket")||"{}"),favorites=JSON.parse(localStorage.getItem("sloyFavorites")||"[]"),authMode="login",showFavorites=false;
 const $=id=>document.getElementById(id),rub=n=>new Intl.NumberFormat("ru-RU").format(n)+" ₽";
+
+const uploadDbPromise=new Promise((resolve,reject)=>{const req=indexedDB.open("sloyUploadedModels",1);req.onupgradeneeded=()=>req.result.createObjectStore("models");req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+async function saveUploadedBlob(id,blob){const db=await uploadDbPromise;return new Promise((resolve,reject)=>{const tx=db.transaction("models","readwrite");tx.objectStore("models").put(blob,String(id));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
+async function getUploadedBlob(id){const db=await uploadDbPromise;return new Promise((resolve,reject)=>{const req=db.transaction("models","readonly").objectStore("models").get(String(id));req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
 function toast(t){$("toast").textContent=t;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",1900)}
 function save(){localStorage.setItem("sloyBasket",JSON.stringify(basket));localStorage.setItem("sloyFavorites",JSON.stringify(favorites));$("count").textContent=Object.values(basket).reduce((a,b)=>a+b,0)}
 function setMode(mode){authMode=mode;$("tabLogin").classList.toggle("active",mode==="login");$("tabRegister").classList.toggle("active",mode==="register");$("authTitle").textContent=mode==="login"?"Добро пожаловать":"Создайте аккаунт";$("authSubtitle").textContent=mode==="login"?"Войдите, чтобы открыть мир 3D-моделей.":"Присоединяйтесь к сообществу SLOY.";$("nameField").style.display=mode==="register"?"block":"none";$("phoneField").style.display=mode==="register"?"block":"none";$("authPhone").required=mode==="register";$("authSubmit").textContent=mode==="login"?"Войти в SLOY":"Создать аккаунт";$("authPassword").autocomplete=mode==="login"?"current-password":"new-password";$("authError").textContent=""}
@@ -118,7 +126,13 @@ $("profileBtn").onclick=()=>{
  document.querySelectorAll("[data-cabtab]").forEach(b=>b.onclick=()=>cabinetTab(b.dataset.cabtab));
  cabinetTab("profile");
 };
-$("authorBtn").onclick=()=>modal("Стать автором SLOY",'<p>Профили авторов и публикация моделей будут подключены на следующем этапе.</p>');
+
+function openSellerUpload(){
+ modal("Загрузить 3D-модель",'<form class="seller-form" id="sellerForm"><div class="seller-grid"><label>Название модели<input id="sellerName" maxlength="60" required placeholder="Например, Sci-Fi робот"></label><label>Категория<select id="sellerCategory"><option>Персонажи</option><option>Транспорт</option><option>Архитектура</option><option>Техника</option><option>Оружие</option><option>Игровые ассеты</option><option>Интерьер</option></select></label></div><div class="seller-grid"><label>Цена, ₽<input id="sellerPrice" type="number" min="1" max="1000000" value="499" required></label><label>Автор<input id="sellerAuthor" maxlength="35" required placeholder="Ваше имя"></label></div><label>Описание<textarea id="sellerDescription" maxlength="500" placeholder="Расскажите о модели"></textarea></label><div class="upload-drop"><b>Выберите файл модели .GLB</b><input id="sellerFile" type="file" accept=".glb,model/gltf-binary" required><p class="seller-hint">До 50 МБ. Файл сохранится только в этом браузере, не на сервере.</p></div><button class="seller-submit" type="submit">Опубликовать модель</button><p class="seller-hint" id="sellerError"></p></form>');
+ $("sellerForm").onsubmit=async e=>{e.preventDefault();const file=$("sellerFile").files[0],name=$("sellerName").value.trim(),author=$("sellerAuthor").value.trim(),price=Number($("sellerPrice").value);if(!file||!file.name.toLowerCase().endsWith(".glb")){$("sellerError").textContent="Нужен файл .glb.";return}if(file.size>50*1024*1024){$("sellerError").textContent="Файл больше 50 МБ.";return}if(!name||!author||!Number.isFinite(price)||price<1){$("sellerError").textContent="Проверьте название, автора и цену.";return}const id=Date.now();try{await saveUploadedBlob(id,file);const item={id,name,cat:$("sellerCategory").value,price,emoji:"🧊",author,rating:5,reviews:"Новая модель",format:"GLB",pop:0,glow:"#aaa4ff",cls:"v2",custom:true,description:$("sellerDescription").value.trim(),fileName:file.name};const stored=JSON.parse(localStorage.getItem("sloySellerProducts")||"[]");stored.push(item);localStorage.setItem("sloySellerProducts",JSON.stringify(stored));products.push(item);$("modal").classList.remove("open");drawProducts();toast("Модель опубликована в этом браузере!")}catch(err){$("sellerError").textContent="Не удалось сохранить файл. Возможно, закончилось место в браузере."}};
+}
+$("authorBtn").onclick=openSellerUpload;
+
 
 let activeProduct=null,detailScene=null,detailRenderer=null,detailFrame=null,detailDrag=null,detailWire=false;
 function makeProductGeometry(p){
@@ -155,7 +169,8 @@ function initProductViewer(p){
  detailScene.add(new THREE.HemisphereLight(0xdedcff,0x343443,2));const key=new THREE.DirectionalLight(0xffffff,2.2);key.position.set(4,7,5);key.castShadow=true;detailScene.add(key);const fill=new THREE.PointLight(0x8175ff,1.8);fill.position.set(-4,2,-3);detailScene.add(fill);
  const floor=new THREE.Mesh(new THREE.CircleGeometry(3.8,64),new THREE.MeshStandardMaterial({color:0x303240,roughness:.85}));floor.rotation.x=-Math.PI/2;floor.position.y=-.23;detailScene.add(floor);
  const grid=new THREE.GridHelper(7,28,0x696783,0x424454);grid.position.y=-.21;detailScene.add(grid);
- const model=makeProductGeometry(p);detailScene.add(model);model.rotation.y=.45;
+ let model=makeProductGeometry(p);detailScene.add(model);model.rotation.y=.45;
+ if(p.custom&&window.THREE.GLTFLoader){model.visible=false;getUploadedBlob(p.id).then(blob=>{if(!blob||!detailScene)return;const url=URL.createObjectURL(blob);new THREE.GLTFLoader().load(url,gltf=>{URL.revokeObjectURL(url);if(!detailScene)return;model=gltf.scene;const bounds=new THREE.Box3().setFromObject(model),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3()),maxDim=Math.max(size.x,size.y,size.z)||1;model.position.sub(center);model.scale.setScalar(2.4/maxDim);detailScene.add(model)},undefined,()=>{URL.revokeObjectURL(url);if(model)model.visible=true})}).catch(()=>{model.visible=true})}
  let dragging=false,px=0,py=0;
  canvas.onpointerdown=e=>{dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)};
  canvas.onpointermove=e=>{if(!dragging)return;model.rotation.y+=(e.clientX-px)*.012;model.rotation.x+=(e.clientY-py)*.008;px=e.clientX;py=e.clientY};

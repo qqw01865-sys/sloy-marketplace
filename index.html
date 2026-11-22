@@ -90,8 +90,8 @@ body{background:#f5f6fa;color:#171927;font-family:Inter,ui-sans-serif,system-ui,
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
 // После создания проекта Supabase вставьте сюда Project URL и anon/public key.
-const SUPABASE_URL = "ВСТАВЬТЕ_SUPABASE_PROJECT_URL";
-const SUPABASE_ANON_KEY = "ВСТАВЬТЕ_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://fcaxofypwmgrfzllumsq.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_Fr7VJadVDJ886ICOQ85HEw_vZeTaS8u";
 const supabaseReady = !!(window.supabase && SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("ВСТАВЬТЕ") && !SUPABASE_ANON_KEY.includes("ВСТАВЬТЕ"));
 const supabaseClient = supabaseReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 let currentUser = null;

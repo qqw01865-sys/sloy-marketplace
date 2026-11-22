@@ -45,6 +45,11 @@ body{background:#f5f6fa;color:#171927;font-family:Inter,ui-sans-serif,system-ui,
 @media(max-width:760px){.topbar{height:68px;padding:0 14px;gap:12px}.brand{font-size:22px;min-width:auto}.navlinks{display:none}.layout{display:block}.sidebar{display:none}.main{padding:17px 14px 42px}.market-hero{grid-template-columns:1fr;min-height:0;padding:27px 22px 18px;margin-bottom:22px}.market-hero h1{font-size:39px}.hero-art{position:absolute;right:-48px;top:12px;width:190px;height:180px;opacity:.32;transform:scale(.85)}.hero-bottom{gap:12px;margin-top:18px}.hero-note{display:none}.pagehead{display:block}.sort{margin-top:12px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.visual{height:145px}.model{font-size:72px}.info{padding:10px}.info h3{font-size:12px}.price{font-size:15px}.promo{align-items:flex-start;flex-direction:column}}
 @media(max-width:420px){.searchbox{min-width:0}.top-actions{gap:5px}.iconbtn{width:35px;height:35px}.products{gap:8px}.visual{height:120px}.model{font-size:62px}.market-hero h1{font-size:34px}}
 
+
+/* Checkout modal: keep the full order form inside the phone viewport */
+.checkout-dialog{width:min(520px,100%);max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:20px}
+.checkout-dialog #checkoutForm{padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(max-width:620px){.modal{padding:8px;align-items:center}.checkout-dialog{width:100%;max-height:calc(100dvh - 16px);padding:17px 15px;border-radius:16px}.checkout-dialog .seller-submit{position:sticky;bottom:0;box-shadow:0 -8px 16px #ffffffd9}}
 </style>
 </head>
 <body>
@@ -178,6 +183,7 @@ function cartView(){
  const rows=list.map(x=>"<p>"+x.p.name+" × "+x.n+" — "+rub(x.p.price*x.n)+"</p>").join("");
  const colors=list.map((x,i)=>'<label>Цвет для '+x.p.name+'<select id="orderColor'+i+'">'+(x.p.colorOptions||"По умолчанию").split(",").map(c=>'<option>'+c.trim()+'</option>').join("")+'</select></label>').join("");
  modal("Оформление заказа",rows+colors+'<h3>Товары: '+rub(sum)+'</h3><form id="checkoutForm" class="seller-form"><label>Имя<input id="checkoutName" required></label><label>Телефон<input id="checkoutPhone" required></label><label>Доставка<select id="checkoutDelivery"><option value="home">До дома — 150 ₽ (Таганрог)</option><option value="pickup">Самовывоз — бесплатно</option><option value="post">Почта России — от 289 ₽</option></select></label><div id="deliveryExtra"></div><label>Оплата<select id="checkoutPayment"><option value="confirm">Согласовать оплату с владельцем</option><option value="sbp">СБП — подтверждение владельцем</option></select></label><p class="seller-hint">QR-оплата пока пропущена. Оплата не списывается.</p><h3 id="checkoutTotal"></h3><button class="seller-submit">Отправить заказ</button><p id="checkoutError" class="seller-hint"></p></form>');
+ $("modal").querySelector(".dialog").classList.add("checkout-dialog");
  const delivery=$("checkoutDelivery"),extra=$("deliveryExtra");
  function renderDelivery(){const v=delivery.value;extra.innerHTML=v==="home"?'<label>Город<input value="Таганрог" disabled></label><label>Адрес<input id="checkoutAddress" required placeholder="Улица, дом, квартира"></label><label>Дата<input id="checkoutDate" type="date" required></label><label>Время<input id="checkoutTime" type="time" required></label><small>Пн, вт, пт, сб, вс — после 18:00; ср и чт — после 15:00.</small>':v==="pickup"?"<p>ПВМ: Ростовская область, Таганрог, ул. Дзержинского, 14</p>":'<label>Индекс и адрес<input id="checkoutAddress" required></label><small>Точная стоимость доставки от 289 ₽ будет подтверждена владельцем.</small>';const fee=v==="home"?150:v==="pickup"?0:289;$("checkoutTotal").textContent="Итого: "+rub(sum+fee)}
  delivery.onchange=renderDelivery;renderDelivery();
